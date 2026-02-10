@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="napp">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AngularJS Form Validation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="app" ng-controller="myCtrl">
+        <form name="form1" novalidate>
+            <!-- Name -->
+            <div class="form-control">
+                <label for="name">Name</label>
+                <input ng-required="true" id="name" name="name" type="text" ng-model="name" />
+                <span class="error" ng-show="form1.name.$touched && form1.name.$error.required">Name Required</span>
+            </div>
+
+            <!-- Username -->
+            <div class="form-control">
+                <label for="username">Username</label>
+                <input ng-required="true" id="username" name="username" type="text" ng-model="username" />
+                <span class="error" ng-show="form1.username.$touched && form1.username.$error.required">Username
+                    Required</span>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-control">
+                <label for="phone">Phone Number</label>
+                <input ng-required="true" ng-minlength="10" ng-maxlength="10" type="tel" name="phone" id="phone"
+                    ng-model="phone" />
+                <span class="error"
+                    ng-show="(form1.phone.$touched && form1.phone.$error.required) || form1.phone.$error.minlength || form1.phone.$error.maxlength">
+                    Phone Number Must be 10 digits
+                </span>
+            </div>
+
+            <!-- Email -->
+            <div class="form-control">
+                <label for="email">Email</label>
+                <input ng-required="true" id="email" name="email" type="email" ng-model="email" />
+                <span class="error"
+                    ng-show="(form1.email.$touched && form1.email.$error.required) || form1.email.$error.email">
+                    Valid email is required
+                </span>
+            </div>
+
+            <!-- Password -->
+            <div class="form-control" style="width: 95%">
+                <label for="password">Password</label>
+                <input ng-required="true" id="password" name="password" type="{{showPassword ? 'text' : 'password'}}"
+                    ng-model="password" ng-pattern="/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/" />
+                <span class="error"
+                    ng-show="(form1.password.$touched && form1.password.$error.required) || (form1.password.$dirty && form1.password.$error.pattern)">
+                    Password must contain at least 8 characters, one lowercase letter, one uppercase letter, and one
+                    number
+                </span>
+            </div>
+
+            <!-- Show Password Checkbox -->
+            <div class="chk">
+                <input id="showPassword" type="checkbox" ng-model="showPassword" />
+                <label for="showPassword">Show Password</label>
+            </div>
+
+            <!-- Submit Button -->
+            <button ng-disabled="form1.$invalid" type="submit" class="btnSubmit" ng-click="print()">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        var app = angular.module("napp", []);
+        app.controller("myCtrl", function ($scope) {
+            $scope.print = function () {
+                if ($scope.form1.$valid) {
+                    alert("Submitted");
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>
